@@ -32,9 +32,9 @@ namespace DDDFileReader
         public WorkshopCardDownload WorkshopCardDownload { get; set; }
         public CalibrationData CalibrationData { get; set; }
 
-        public void LoadData(string fileName)
+        public void LoadData(byte[] data)
         {
-            ICollection<TachographCardData> tachographCardData = ReadFile(fileName);
+            ICollection<TachographCardData> tachographCardData = ReadFile(data);
 
             TachographCardData integratedCircuitCard = tachographCardData.FirstOrDefault(c => c.HexString == "0002" || c.HexString == "0");
             if (integratedCircuitCard != null)
@@ -51,7 +51,7 @@ namespace DDDFileReader
             var identificationType = tachographCardData.FirstOrDefault(c => c.HexString == "0501" || c.HexString == "0");
             if (identificationType != null)
             {
-                switch (Conversions.ToInteger(NewLateBinding.LateIndexGet(identificationType.Data, new object[] {0}, null)))
+                switch (Conversions.ToInteger(NewLateBinding.LateIndexGet(identificationType.Data, new object[] { 0 }, null)))
                 {
                     case 1:
                         SmartCardType = SmartCardType.DriverCard;
@@ -112,24 +112,28 @@ namespace DDDFileReader
 
         private void PopulateData<T>(Expression<Func<T>> property, ICollection<TachographCardData> data, string hexString)
         {
-            var propertyInfo = (PropertyInfo) ((MemberExpression) property.Body).Member;
+            var propertyInfo = (PropertyInfo)((MemberExpression)property.Body).Member;
             var item = data.FirstOrDefault(c => c.HexString == hexString || c.HexString == "0");
             if (item != null)
             {
-                T instance = (T) Activator.CreateInstance(typeof (T), item.Data);
+                T instance = (T)Activator.CreateInstance(typeof(T), item.Data);
                 propertyInfo.SetValue(this, instance);
             }
         }
 
-        private static ICollection<TachographCardData> ReadFile(string fileName)
+        private static ICollection<TachographCardData> ReadFile(byte[] data)
         {
             List<TachographCardData> result = new List<TachographCardData>();
-            using (FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+
+            using (MemoryStream memoryStream = new MemoryStream())
             {
-                using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                memoryStream.Write(data, 0, data.Length);
+                memoryStream.Position = 0;
+
+                using (BinaryReader binaryReader = new BinaryReader(memoryStream))
                 {
                     int count;
-                    for (int index = 0; (long) index < fileStream.Length; index = checked(index + 5 + count))
+                    for (int index = 0; (long)index < binaryReader.BaseStream.Length; index = checked(index + 5 + count))
                     {
                         string str = BinaryHelper.BytesToHexString(binaryReader.ReadBytes(2));
                         if (Operators.CompareString(str, "7606", false) == 0)
@@ -141,15 +145,15 @@ namespace DDDFileReader
                             }
                         }
                         LookupItem description = LookupTableHelper.GetLookupItem<TachographCardContentsLookupTable>(str);
-                        int num = checked((int) BinaryHelper.BytesToLong(binaryReader.ReadBytes(1)));
-                        count = checked((int) BinaryHelper.BytesToLong(binaryReader.ReadBytes(2)));
+                        int num = checked((int)BinaryHelper.BytesToLong(binaryReader.ReadBytes(1)));
+                        count = checked((int)BinaryHelper.BytesToLong(binaryReader.ReadBytes(2)));
 
                         result.Add(new TachographCardData
                         {
                             HexString = str,
                             Count = count,
                             Data = binaryReader.ReadBytes(count),
-                            Description = RuntimeHelpers.GetObjectValue(Interaction.IIf(num == 1, "Signature", description)).ToString(),
+                            Description = num == 1 ? "Signature" : description == null ? "" : description.Value,
                             Number = num
                         });
                     }
