@@ -2,8 +2,13 @@ namespace DDDFileReader
 {
     using System;
 
-    public class DriverCard
+    public class DriverCard : BaseModel
     {
+        public DriverCard()
+        {
+            
+        }
+
         public DriverCard(byte[] data)
         {
             DateTime? str = BinaryHelper.ToDate(new byte[] { 0, 0, 0, 0 });

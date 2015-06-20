@@ -2,11 +2,16 @@ namespace DDDFileReader
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlTypes;
     using System.Runtime.CompilerServices;
     using Microsoft.VisualBasic;
 
-    public class ActivityData
+    public class ActivityData : BaseModel
     {
+        public ActivityData()
+        {
+        }
+
         public ActivityData(byte[] data, int activityDataLength)
         {
             Items = new List<ActivityDataItem>();
@@ -102,7 +107,7 @@ namespace DDDFileReader
                     }
                 }
 
-                changeDataItem.Time = DateAndTime.DateAdd(DateInterval.Minute, BinaryHelper.BytesToLong(BinaryHelper.SubByte(data, (2*i) + 1, 2)) & 0x7ffL, new DateTime());
+                changeDataItem.Time = DateAndTime.DateAdd(DateInterval.Minute, BinaryHelper.BytesToLong(BinaryHelper.SubByte(data, (2*i) + 1, 2)) & 0x7ffL, new DateTime(SqlDateTime.MinValue.Value.Year, SqlDateTime.MinValue.Value.Month, SqlDateTime.MinValue.Value.Day));
                 result.Add(changeDataItem);
             }
 

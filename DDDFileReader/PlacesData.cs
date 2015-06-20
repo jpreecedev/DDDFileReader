@@ -3,8 +3,13 @@ namespace DDDFileReader
     using System.Collections.Generic;
     using Lookups;
 
-    public class PlacesData
+    public class PlacesData : BaseModel
     {
+        public PlacesData()
+        {
+            
+        }
+
         public PlacesData(byte[] data)
         {
             Items = new List<PlacesDataItem>();

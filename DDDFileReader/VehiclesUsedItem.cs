@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class VehiclesUsedItem
+    public class VehiclesUsedItem : BaseModel
     {
         public long OdometerBegin { get; set; }
         public long? OdometerEnd { get; set; }

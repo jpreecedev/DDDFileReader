@@ -3,13 +3,17 @@ namespace DDDFileReader
     using System.Collections.Generic;
     using Lookups;
 
-    public class CalibrationData
+    public class CalibrationData : BaseModel
     {
+        public CalibrationData()
+        {
+        }
+
         public CalibrationData(byte[] data)
         {
             Items = new List<CalibrationDataItem>();
-            
-            for (int i = 0; i <= data.Length / 0x69 - 1; i++)
+
+            for (int i = 0; i <= data.Length/0x69 - 1; i++)
             {
                 if (BinaryHelper.BytesToLong(BinaryHelper.SubByte(data, (0x69*i) + 1, 1)) != 0L)
                 {

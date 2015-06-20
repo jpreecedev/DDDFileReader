@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using System.Collections.Generic;
 
-    public class ActivityDataItem
+    public class ActivityDataItem : BaseModel
     {
         public ActivityDataItem()
         {
@@ -11,11 +11,8 @@ namespace DDDFileReader
         }
 
         public ICollection<ActivityChangeDataItem> ChangeItems { get; set; }
-
         public DateTime RecordDate { get; set; }
-
         public string DailyPresenceCounter { get; set; }
-
         public long DayDistance { get; set; }
     }
 }

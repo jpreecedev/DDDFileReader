@@ -4,8 +4,13 @@ namespace DDDFileReader
     using Lookups;
     using Microsoft.VisualBasic;
 
-    public class VehiclesUsed
+    public class VehiclesUsed : BaseModel
     {
+        public VehiclesUsed()
+        {
+            
+        }
+
         public VehiclesUsed(byte[] data)
         {
             Items = new List<VehiclesUsedItem>();

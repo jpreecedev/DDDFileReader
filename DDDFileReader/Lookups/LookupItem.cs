@@ -1,6 +1,6 @@
 ﻿namespace DDDFileReader.Lookups
 {
-    public class LookupItem
+    public class LookupItem : BaseModel
     {
         public string Key { get; set; }
 

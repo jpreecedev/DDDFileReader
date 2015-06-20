@@ -2,8 +2,12 @@ namespace DDDFileReader
 {
     using Lookups;
 
-    public class ApplicationIdentification
+    public class ApplicationIdentification : BaseModel
     {
+        public ApplicationIdentification()
+        {
+        }
+
         public ApplicationIdentification(byte[] data)
         {
             TypeOfTachographCardID = LookupTableHelper.GetLookupItem<EquipmentTypeLookupTable>(BinaryHelper.BytesToLong(BinaryHelper.SubByte(data, 1, 1)).ToString());
@@ -16,17 +20,11 @@ namespace DDDFileReader
         }
 
         public LookupItem TypeOfTachographCardID { get; set; }
-
         public string CardStructureVersion { get; set; }
-
         public string NumberOfEventsPerType { get; set; }
-
         public string NumberOfFaultsPerType { get; set; }
-
         public int ActivityStructureLength { get; set; }
-
         public string NumberOfCardVehicleRecords { get; set; }
-
         public string NumberOfCardPlaceRecords { get; set; }
     }
 }

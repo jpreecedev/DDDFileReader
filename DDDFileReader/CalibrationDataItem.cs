@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class CalibrationDataItem
+    public class CalibrationDataItem : BaseModel
     {
         public LookupItem CalibrationPurpose { get; set; }
         public string VehicleIdentificationNumber { get; set; }

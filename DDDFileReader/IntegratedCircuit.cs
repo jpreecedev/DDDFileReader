@@ -1,7 +1,12 @@
 namespace DDDFileReader
 {
-    public class IntegratedCircuit
+    public class IntegratedCircuit : BaseModel
     {
+        public IntegratedCircuit()
+        {
+            
+        }
+
         public IntegratedCircuit(byte[] data)
         {
             SerialNumber = BinaryHelper.BytesToHexString(BinaryHelper.SubByte(data, 1, 4));

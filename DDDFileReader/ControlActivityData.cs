@@ -5,8 +5,12 @@ namespace DDDFileReader
     using Microsoft.VisualBasic;
     using Microsoft.VisualBasic.CompilerServices;
 
-    public class ControlActivityData
+    public class ControlActivityData : BaseModel
     {
+        public ControlActivityData()
+        {
+        }
+
         public ControlActivityData(byte[] data)
         {
             string left = "";

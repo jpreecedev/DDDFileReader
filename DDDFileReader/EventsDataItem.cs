@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class EventsDataItem
+    public class EventsDataItem : BaseModel
     {
         public LookupItem Type { get; set; }
         public DateTime? BeginTime { get; set; }

@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class FaultsDataItem
+    public class FaultsDataItem : BaseModel
     {
         public LookupItem Type { get; set; }
         public DateTime? BeginTime { get; set; }

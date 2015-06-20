@@ -3,7 +3,7 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class PlacesDataItem
+    public class PlacesDataItem : BaseModel
     {
         public DateTime EntryTime { get; set; }
         public string EntryTypeDailyWorkPeriod { get; set; }

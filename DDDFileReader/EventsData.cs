@@ -3,8 +3,13 @@ namespace DDDFileReader
     using System.Collections.Generic;
     using Lookups;
 
-    public class EventsData
+    public class EventsData : BaseModel
     {
+        public EventsData()
+        {
+            
+        }
+
         public EventsData(byte[] data)
         {
             Items = new List<EventsDataItem>();

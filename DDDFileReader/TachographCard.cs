@@ -6,12 +6,10 @@ namespace DDDFileReader
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using Lookups;
-    using Microsoft.VisualBasic;
     using Microsoft.VisualBasic.CompilerServices;
 
-    public class TachographCard
+    public class TachographCard : BaseModel
     {
         public SmartCardType SmartCardType { get; set; }
         public IntegratedCircuitCard IntegratedCircuitCard { get; set; }
@@ -51,7 +49,7 @@ namespace DDDFileReader
             var identificationType = tachographCardData.FirstOrDefault(c => c.HexString == "0501" || c.HexString == "0");
             if (identificationType != null)
             {
-                switch (Conversions.ToInteger(NewLateBinding.LateIndexGet(identificationType.Data, new object[] { 0 }, null)))
+                switch (Conversions.ToInteger(NewLateBinding.LateIndexGet(identificationType.Data, new object[] {0}, null)))
                 {
                     case 1:
                         SmartCardType = SmartCardType.DriverCard;
@@ -112,11 +110,11 @@ namespace DDDFileReader
 
         private void PopulateData<T>(Expression<Func<T>> property, ICollection<TachographCardData> data, string hexString)
         {
-            var propertyInfo = (PropertyInfo)((MemberExpression)property.Body).Member;
+            var propertyInfo = (PropertyInfo) ((MemberExpression) property.Body).Member;
             var item = data.FirstOrDefault(c => c.HexString == hexString || c.HexString == "0");
             if (item != null)
             {
-                T instance = (T)Activator.CreateInstance(typeof(T), item.Data);
+                T instance = (T) Activator.CreateInstance(typeof (T), item.Data);
                 propertyInfo.SetValue(this, instance);
             }
         }
@@ -133,7 +131,7 @@ namespace DDDFileReader
                 using (BinaryReader binaryReader = new BinaryReader(memoryStream))
                 {
                     int count;
-                    for (int index = 0; (long)index < binaryReader.BaseStream.Length; index = checked(index + 5 + count))
+                    for (int index = 0; (long) index < binaryReader.BaseStream.Length; index = checked(index + 5 + count))
                     {
                         string str = BinaryHelper.BytesToHexString(binaryReader.ReadBytes(2));
                         if (Operators.CompareString(str, "7606", false) == 0)
@@ -145,8 +143,8 @@ namespace DDDFileReader
                             }
                         }
                         LookupItem description = LookupTableHelper.GetLookupItem<TachographCardContentsLookupTable>(str);
-                        int num = checked((int)BinaryHelper.BytesToLong(binaryReader.ReadBytes(1)));
-                        count = checked((int)BinaryHelper.BytesToLong(binaryReader.ReadBytes(2)));
+                        int num = checked((int) BinaryHelper.BytesToLong(binaryReader.ReadBytes(1)));
+                        count = checked((int) BinaryHelper.BytesToLong(binaryReader.ReadBytes(2)));
 
                         result.Add(new TachographCardData
                         {

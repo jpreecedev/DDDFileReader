@@ -1,7 +1,12 @@
 namespace DDDFileReader
 {
-    public class WorkshopCardDownload
+    public class WorkshopCardDownload : BaseModel
     {
+        public WorkshopCardDownload()
+        {
+            
+        }
+
         public WorkshopCardDownload(byte[] data)
         {
             NumberOfCalibrationsSinceLastDownload = BinaryHelper.BytesToLong(BinaryHelper.SubByte(data, 1, 2));

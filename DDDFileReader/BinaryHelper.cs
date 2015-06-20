@@ -18,14 +18,14 @@
         public static DateTime BCDToDate(byte[] data)
         {
             string str = BCDToString(data);
-            return new DateTime((int)Math.Round(Conversion.Val(str.Substring(0, 4))), (int)Math.Round(Conversion.Val(str.Substring(4, 2))), (int)Math.Round(Conversion.Val(str.Substring(6, 2))));
+            return new DateTime((int) Math.Round(Conversion.Val(str.Substring(0, 4))), (int) Math.Round(Conversion.Val(str.Substring(4, 2))), (int) Math.Round(Conversion.Val(str.Substring(6, 2))));
         }
 
         public static DateTime ToDate(byte[] data)
         {
             long num3 = BytesToLong(data);
-            int num = (int)(num3 / 60L);
-            int num2 = (int)(num3 % 60L);
+            int num = (int) (num3/60L);
+            int num2 = (int) (num3%60L);
             DateTime dateValue = new DateTime(0x7b2, 1, 1);
             return DateAndTime.DateAdd(DateInterval.Minute, num, dateValue).AddSeconds(num2);
         }
@@ -63,12 +63,14 @@
             int index = num1;
             while (index <= num2)
             {
-                strArray[index] = string.Format("{0:X2}", (object)value[checked(index + startIndex)]);
-                checked { ++index; }
+                strArray[index] = string.Format("{0:X2}", value[checked(index + startIndex)]);
+                checked
+                {
+                    ++index;
+                }
             }
             return string.Join(delimiter, strArray);
         }
-
 
         public static long BytesToLong(byte[] DataIn)
         {

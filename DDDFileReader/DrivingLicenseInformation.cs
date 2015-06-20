@@ -2,8 +2,13 @@ namespace DDDFileReader
 {
     using Lookups;
 
-    public class DrivingLicenseInformation
+    public class DrivingLicenseInformation : BaseModel
     {
+        public DrivingLicenseInformation()
+        {
+            
+        }
+
         public DrivingLicenseInformation(byte[] data)
         {
             IssuingAuthority = BinaryHelper.ToISOString(BinaryHelper.SubByte(data, 1, 0x24));

@@ -3,8 +3,13 @@ namespace DDDFileReader
     using System.Collections.Generic;
     using Lookups;
 
-    public class SpecificConditions
+    public class SpecificConditions : BaseModel
     {
+        public SpecificConditions()
+        {
+            
+        }
+        
         public SpecificConditions(byte[] data)
         {
             Items = new List<SpecificConditionsDataItem>();

@@ -3,8 +3,13 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class DriverCardIdentification
+    public class DriverCardIdentification : BaseModel
     {
+        public DriverCardIdentification()
+        {
+            
+        }
+
         public DriverCardIdentification(byte[] data)
         {
             CardIssuingMemberState = LookupTableHelper.GetLookupItem<NationLookupTable>(BinaryHelper.BytesToHexString(BinaryHelper.SubByte(data, 1, 1)));
@@ -18,7 +23,7 @@ namespace DDDFileReader
             CardHolderBirthDate = BinaryHelper.BCDToDate(BinaryHelper.SubByte(data, 0x8a, 4));
             CardHolderPreferredLanguage = BinaryHelper.DecodeString(BinaryHelper.SubByte(data, 0x8e, 2));
         }
-
+       
         public LookupItem CardIssuingMemberState { get; set; }
         public string CardNumber { get; set; }
         public string CardIssuingAuthorityName { get; set; }
@@ -29,5 +34,15 @@ namespace DDDFileReader
         public string CardHolderFirstNames { get; set; }
         public DateTime CardHolderBirthDate { get; set; }
         public string CardHolderPreferredLanguage { get; set; }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(CardHolderFirstNames) && string.IsNullOrEmpty(CardHolderSurname))
+            {
+                return "Unknown";
+            }
+
+            return string.Format("{0} {1}", CardHolderFirstNames.TrimSafely(), CardHolderSurname.TrimSafely());
+        }
     }
 }

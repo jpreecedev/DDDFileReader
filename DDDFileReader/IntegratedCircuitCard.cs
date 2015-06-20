@@ -2,8 +2,13 @@ namespace DDDFileReader
 {
     using Lookups;
 
-    public class IntegratedCircuitCard
+    public class IntegratedCircuitCard : BaseModel
     {
+        public IntegratedCircuitCard()
+        {
+            
+        }
+
         public IntegratedCircuitCard(byte[] data)
         {
             ClockStop = BinaryHelper.BytesToHexString(BinaryHelper.SubByte(data, 1, 1));

@@ -3,8 +3,13 @@ namespace DDDFileReader
     using System;
     using Lookups;
 
-    public class WorkshopCardIdentification
+    public class WorkshopCardIdentification : BaseModel
     {
+        public WorkshopCardIdentification()
+        {
+            
+        }
+
         public WorkshopCardIdentification(byte[] data)
         {
             CardIssuingMemberState = LookupTableHelper.GetLookupItem<NationLookupTable>(BinaryHelper.BytesToHexString(BinaryHelper.SubByte(data, 1, 1)));

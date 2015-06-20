@@ -1,6 +1,6 @@
 namespace DDDFileReader
 {
-    public class TachographCardData
+    public class TachographCardData : BaseModel
     {
         public string HexString { get; set; }
         public string Description { get; set; }
